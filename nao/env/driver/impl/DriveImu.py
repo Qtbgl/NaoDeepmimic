@@ -3,7 +3,7 @@ import math
 import numpy as np
 from scipy.spatial.transform import Rotation
 
-from NAO_RL.Driver.RobotDrive import RobotDrive
+from nao.env.driver.RobotDrive import RobotDrive
 
 
 class DriveImu(RobotDrive):

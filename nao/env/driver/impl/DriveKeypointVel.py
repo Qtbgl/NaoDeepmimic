@@ -1,9 +1,9 @@
 import numpy as np
 
-from NAO_RL.Driver.RobotDriveImpl.DriveKeypoint import DriveKeypoint
-from NAO_RL.Driver.RobotDrive import RobotDrive
-from NAO_RL.Driver.RobotEquipment import RobotEquipment
-from NAO_RL.Tools.space_tools import get_ground_pose
+from nao.env.driver.impl.DriveKeypoint import DriveKeypoint
+from nao.env.driver.RobotDrive import RobotDrive
+from nao.env.driver.RobotEquipment import RobotEquipment
+from nao.env.tool.space_tools import get_ground_pose
 
 
 class DriveKeypointVel(RobotDrive):

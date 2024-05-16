@@ -1,9 +1,9 @@
 import numpy as np
 
-from NAO_RL.Driver.RobotDriveImpl.DrivePose import DrivePose
-from NAO_RL.Driver.RobotDrive import RobotDrive
-from NAO_RL.Driver.RobotEquipment import RobotEquipment
-from NAO_RL.Tools.space_tools import get_torso_pose_in_ground
+from nao.env.driver.impl.DrivePose import DrivePose
+from nao.env.driver.RobotDrive import RobotDrive
+from nao.env.driver.RobotEquipment import RobotEquipment
+from nao.env.tool.space_tools import get_torso_pose_in_ground
 from controller import Supervisor
 
 

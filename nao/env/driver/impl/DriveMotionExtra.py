@@ -1,7 +1,7 @@
 import numpy as np
 
-from NAO_RL.Driver.RobotDriveImpl.DriveMotion import DriveMotion, cartesian_to_polar
-from NAO_RL.Driver.RobotEquipment import RobotEquipment
+from nao.env.driver.impl.DriveMotion import DriveMotion, cartesian_to_polar
+from nao.env.driver.RobotEquipment import RobotEquipment
 
 
 class DriveMotionExtra(DriveMotion):

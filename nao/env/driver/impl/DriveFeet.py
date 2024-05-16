@@ -1,11 +1,11 @@
-from NAO_RL.Driver.RobotDriveImpl.DrivePose import DrivePose
-from NAO_RL.Driver.RobotDrive import RobotDrive
+from nao.env.driver.impl.DrivePose import DrivePose
+from nao.env.driver.RobotDrive import RobotDrive
 
 import numpy as np
 
-from NAO_RL.Driver.RobotEquipment import RobotEquipment
-from NAO_RL.Tools.space_tools import apart_touch_force
-from NAO_RL.Tools.utilities import getFeetPressure
+from nao.env.driver.RobotEquipment import RobotEquipment
+from nao.env.tool.space_tools import apart_touch_force
+from nao.env.tool.utilities import getFeetPressure
 
 
 class DriveFeet(RobotDrive):

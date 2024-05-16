@@ -1,9 +1,9 @@
 import numpy as np
 
-from NAO_RL.Driver.RobotDrive import RobotDrive
-from NAO_RL.Driver.RobotDriveImpl.DriveTorso import DriveTorso
-from NAO_RL.Driver.RobotEquipment import RobotEquipment
-from NAO_RL.Handler.EnvAccess import EnvAccess
+from nao.env.EnvAccess import EnvAccess
+from nao.env.driver.RobotDrive import RobotDrive
+from nao.env.driver.impl.DriveTorso import DriveTorso
+from nao.env.driver.RobotEquipment import RobotEquipment
 
 
 class DriveTorsoTraj(RobotDrive):
