@@ -1,15 +1,12 @@
-from argparse import Namespace
-
 import gym
 from mpi4py import MPI
 
 import logger
 import utils.tf_util as U
-from debunk_learning import learn
+from train import config
+from train.debunk_learning import learn
 from mlp_policy_trpo import MlpPolicy
-from mytest.test_env import CustomEnv
 from utils.misc_util import set_global_seeds
-from config import Config
 
 
 def train(env, seed, policy_fn, g_step, policy_entcoeff, pretrained_weight_path,
@@ -32,19 +29,13 @@ def train(env, seed, policy_fn, g_step, policy_entcoeff, pretrained_weight_path,
           task_name=task_name)
 
 
-def main():
-    args = Namespace(
-        checkpoint_dir='checkpoint_tmp', env_id='DeepMimic', g_step=3, load_model_path=None, log_dir='log',
-        max_kl=0.01, num_timesteps=1000000.0, policy_entcoeff=0, policy_hidden_size=100,
-        pretrained_weight_path=None, save_per_iter=100, save_sample=False, seed=0, stochastic_policy=False,
-        task='train', traj_limitation=-1)
+def train_go(env):
+    args = config.args
     # 进入主函数
     U.make_session(num_cpu=1).__enter__()
     set_global_seeds(args.seed)
-    # 暂时的环境
-    env = CustomEnv()
 
-    task_name = get_task_short_name(args)
+    task_name = config.get_task_short_name(args)
 
     def policy_fn(name, ob_space, ac_space, reuse=False):
         return MlpPolicy(name=name, ob_space=ob_space, ac_space=ac_space,
@@ -62,7 +53,7 @@ def main():
                             osp.join(logger.get_dir(), "monitor.json"))
         # env.seed(args.seed)  自定义环境不用随机数种子
         gym.logger.setLevel(logging.WARN)
-        task_name = get_task_short_name(args)
+        task_name = config.get_task_short_name(args)
         args.checkpoint_dir = osp.join(args.checkpoint_dir, task_name)
         args.log_dir = osp.join(args.log_dir, task_name)
 
@@ -81,15 +72,3 @@ def main():
         raise NotImplementedError
 
     env.close()
-
-
-def get_task_short_name(args):
-    task_name = args.env_id.split("-")[0] + '/'
-    task_name += "trpo-"
-    task_name += "%s-"%(Config.motion)
-    task_name += str(args.seed)
-    return task_name
-
-
-if __name__ == '__main__':
-    main()
