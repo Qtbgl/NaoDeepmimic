@@ -4,6 +4,9 @@ import os, numpy as np
 import platform
 import shutil
 import subprocess
+import tensorflow
+tf = tensorflow.compat.v1
+
 
 def sync_from_root(sess, variables, comm=None):
     """
@@ -18,7 +21,6 @@ def sync_from_root(sess, variables, comm=None):
         if rank == 0:
             comm.Bcast(sess.run(var))
         else:
-            import tensorflow as tf
             returned_var = np.empty(var.shape, dtype='float32')
             comm.Bcast(returned_var)
             sess.run(tf.assign(var, returned_var))

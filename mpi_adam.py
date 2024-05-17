@@ -1,7 +1,9 @@
 from mpi4py import MPI
 import utils.tf_util as U
-import tensorflow as tf
+import tensorflow
 import numpy as np
+tf = tensorflow.compat.v1
+
 
 class MpiAdam(object):
     def __init__(self, var_list, *, beta1=0.9, beta2=0.999, epsilon=1e-08, scale_grad_by_procs=True, comm=None):

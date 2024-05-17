@@ -1,7 +1,7 @@
 # 机器学习库
 from mpi4py import MPI
 import numpy as np
-import tensorflow as tf
+import tensorflow
 
 # 项目工具
 import utils.tf_util as U
@@ -23,6 +23,8 @@ import time
 import os
 from collections import deque
 from contextlib import contextmanager
+
+tf = tensorflow.compat.v1
 
 
 def learn(env, policy_func, *,

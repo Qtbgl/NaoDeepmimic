@@ -1,3 +1,5 @@
+import numpy as np
+
 from controller import Supervisor
 from nao.env.driver.RobotDrive import RobotDrive
 from nao.env.tool import space_tools
@@ -58,4 +60,5 @@ def setMotor(motion: dict):
     for name in _drive.motors:  # 只控制已注册的电机
         motor = _drive.motors[name]
         angle = motion.get(name, 0.0)
+        angle = np.clip(angle, motor.min_position, motor.max_position)  # 模型输出问题
         motor.setPosition(angle)

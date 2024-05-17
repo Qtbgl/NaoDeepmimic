@@ -2,10 +2,11 @@
 This code is highly based on https://github.com/carpedm20/deep-rl-tensorflow/blob/master/agents/statistic.py
 '''
 
-import tensorflow as tf
+import tensorflow
 import numpy as np
 
 import utils.tf_util as U
+tf = tensorflow.compat.v1
 
 
 class stats():

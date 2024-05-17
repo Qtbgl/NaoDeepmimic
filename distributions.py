@@ -1,8 +1,11 @@
-import tensorflow as tf
+import tensorflow
 import numpy as np
 from utils import tf_util as U
 from utils.fc_util import fc
 from tensorflow.python.ops import math_ops
+
+tf = tensorflow.compat.v1
+
 
 class Pd(object):
     """

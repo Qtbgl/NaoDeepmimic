@@ -2,3 +2,4 @@ tensorflow
 mpi4py
 deepbots
 pandas
+joblib

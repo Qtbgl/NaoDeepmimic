@@ -3,12 +3,14 @@ from baselines/ppo1/mlp_policy.py and add simple modification
 (1) add reuse argument
 (2) cache the `stochastic` placeholder
 '''
-import tensorflow as tf
+import tensorflow
 import gym
 
 import utils.tf_util as U
 from distributions import make_pdtype
 from utils.misc_util import dense, RunningMeanStd
+
+tf = tensorflow.compat.v1
 
 
 class MlpPolicy(object):

@@ -9,7 +9,9 @@ import zipfile
 from mpi4py import MPI
 import utils.tf_util as U
 
-import tensorflow as tf
+import tensorflow
+tf = tensorflow.compat.v1
+
 
 def dense(x, size, name, weight_init=None, bias_init=0, weight_loss_dict=None, reuse=None):
     with tf.variable_scope(name, reuse=reuse):
@@ -137,7 +139,6 @@ def set_global_seeds(i):
 
     myseed = i  + 1000 * rank if i is not None else None
     try:
-        import tensorflow as tf
         tf.set_random_seed(myseed)
     except ImportError:
         pass

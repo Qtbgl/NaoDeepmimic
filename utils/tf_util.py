@@ -1,11 +1,14 @@
 import joblib
 import numpy as np
-import tensorflow as tf  # pylint: ignore-module
+import tensorflow  # pylint: ignore-module
 import copy
 import os
 import functools
 import collections
 import multiprocessing
+
+tf = tensorflow.compat.v1
+
 
 def switch(condition, then_expression, else_expression):
     """Switches between two operations depending on a scalar value (int or bool).
