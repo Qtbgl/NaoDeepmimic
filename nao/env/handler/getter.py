@@ -8,6 +8,7 @@ from nao.env.handler.HandleReward import HandleReward
 def get_handlers(env: WebotsEnv, arguments: dict) -> tuple[HandleDrive, HandleObservation, HandleAction, HandleReward]:
     task = arguments['task']
     if task == '动作模仿-强化学习奖励模仿':
+        # 配置与毕设论文中绿色曲线的模型一致
         motion_file = arguments['motion_file']
         from nao.env.handler.impl.HandleAction301 import HandleAction301
         from nao.env.handler.impl.HandleObservation401 import HandleObservation401

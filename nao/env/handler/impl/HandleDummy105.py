@@ -67,7 +67,7 @@ class HandleDummy105(HandleDummy1):
         last_time = self.drive.time_before(self.env.sim_time)
         sample = self.drive.kqSample.get(last_time)
         agent = self.drive.kqAgent.get(last_time)  # radian角度
-        r_p = get_reward_from_error(sample, agent, 1, scalar_error)  # decay_rate=2
+        r_p = get_reward_from_error(sample, agent, 1, scalar_error)  # decay_rate=2 因为关节数而减半
 
         # 计算示例速度与输出速度的差异
         t1 = self.drive.time_before(self.env.sim_time)
@@ -84,7 +84,7 @@ class HandleDummy105(HandleDummy1):
             sampleV[name] = (sample1[name] - sample0[name]) / t
             agentV[name] = (agent1[name] - agent0[name]) / t
 
-        r_v = get_reward_from_error(sampleV, agentV, 0.03, scalar_error)  # decay_rate=0.1
+        r_v = get_reward_from_error(sampleV, agentV, 0.03, scalar_error)  # decay_rate=0.1 同样因为关节数
 
         # 计算末端效应器的差异
         now = get_effector_position(['LLeg', 'RLeg', 'LArm', 'RArm'])
