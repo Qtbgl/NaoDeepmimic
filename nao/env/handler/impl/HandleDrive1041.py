@@ -1,16 +1,13 @@
-from nao.env.WebotsEnv import HandleEnv
-from nao.mo.MotionCSV import MotionCSV
-from nao.env.handler.impl.HandleDrive104 import HandleDrive104
-from nao.env.driver.RobotDrive import RobotDrive
+from nao.env.WebotsEnv import WebotsEnv
 from nao.env.driver.impl.DriveMotion import DriveMotion
-from nao.env.tool import space_tools
+from nao.env.handler.impl.HandleDrive104 import HandleDrive104
+from nao.env.tool import motion_tools
 from nao.env.tool.collections.KeyQueue import KeyQueue
-from nao.env.tool.space_tools import get_effector_position, get_mass_center
-from controller import Supervisor
+from nao.mo.MotionCSV import MotionCSV
 
 
 class HandleDrive1041(HandleDrive104):
-    def __init__(self, env: HandleEnv, motion_file: str):
+    def __init__(self, env: WebotsEnv, motion_file: str):
         super().__init__(env)
         self.env = env.env_access
         self.supervisor = env
@@ -23,36 +20,8 @@ class HandleDrive1041(HandleDrive104):
         self.kqAgent = KeyQueue(10)
         self.kqReward = KeyQueue(max_size=10)
         # 用于奖励轨迹对比
-        self.effector = {}
-        self.mass_center = {}
-        self._get_traj(env, self.motion)
-
-    def _get_traj(self, supervisor: Supervisor, motion: MotionCSV):
-        space_tools.fit(supervisor)  # debug
-        supervisor.simulationReset()
-        supervisor.simulationResetPhysics()
-        super(Supervisor, supervisor).step()  # 重置世界后更新
-        time = 0
-        basic = int(supervisor.getBasicTimeStep())
-        print('(HandleDrive1041)正在采集轨迹')
-        while not motion.is_end(time):
-            # 记录效应器的世界位置
-            self.effector[time] = get_effector_position(['LLeg', 'RLeg', 'LArm', 'RArm'])
-            # 记录质心的世界位置
-            self.mass_center[time] = get_mass_center()
-            # 更新动作下一步
-            angles, _, _ = motion.getMotionByTime(time)
-            setMotor(angles, self.base)
-            if super(Supervisor, supervisor).step(basic) == -1:
-                break
-
-            time += basic
-
-        print('(HandleDrive1041)采集完成, time', time)
-        supervisor.simulationReset()
-        supervisor.simulationResetPhysics()
-        super(Supervisor, supervisor).step()
-
+        motion_tools.fit(env, self.base)
+        self.effector, self.mass_center = motion_tools.get_traj(self.motion)
 
     @property
     def max_epi_time(self):
@@ -72,23 +41,23 @@ class HandleDrive1041(HandleDrive104):
 
     def init_move(self):
         for i in range(3):
-            motion = self.sample_motion()
+            motion = self.sample_angles()
             self.apply_motion(motion)
             yield 40
 
-    def sample_motion(self):
+    def sample_angles(self):
         # 当前时间的示例动作
         motion, _, _ = self.motion.getMotionByTime(self.env.sim_time)
         return motion
 
     def apply_motion(self, motion):
         self.kqAgent.set(self.env.sim_time, motion)  # 记录输出动作
-        self.kqSample.set(self.env.sim_time, self.sample_motion())  # 记录示例
+        self.kqSample.set(self.env.sim_time, self.sample_angles())  # 记录示例
         # 设置电机角度
         if self.bind_hip_motors:
             motion["RHipYawPitch"] = motion["LHipYawPitch"]  # 电机联动
 
-        setMotor(motion, self.base)
+        motion_tools.setMotor(motion)
 
     def time_before(self, sim_time):
         """
@@ -101,11 +70,3 @@ class HandleDrive1041(HandleDrive104):
             i -= 1
 
         return times[i]
-
-
-def setMotor(motion: dict, drive: RobotDrive):
-    # 设置电机转角
-    for name in drive.motors:  # 只控制已注册的电机
-        motor = drive.motors[name]
-        angle = motion.get(name, 0.0)
-        motor.setPosition(angle)

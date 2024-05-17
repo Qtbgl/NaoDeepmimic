@@ -1,11 +1,11 @@
-from nao.env.WebotsEnv import HandleEnv
+from nao.env.WebotsEnv import WebotsEnv
 from nao.env.handler.HandleDrive import HandleDrive
 from nao.env.handler.HandleAction import HandleAction
 from nao.env.handler.HandleObservation import HandleObservation
 from nao.env.handler.HandleReward import HandleReward
 
 
-def get_handlers(env: HandleEnv, arguments: dict) -> tuple[HandleDrive, HandleObservation, HandleAction, HandleReward]:
+def get_handlers(env: WebotsEnv, arguments: dict) -> tuple[HandleDrive, HandleObservation, HandleAction, HandleReward]:
     task = arguments['task']
     if task == '动作模仿-强化学习奖励模仿':
         motion_file = arguments['motion_file']

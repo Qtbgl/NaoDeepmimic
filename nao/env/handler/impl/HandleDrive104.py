@@ -1,4 +1,4 @@
-from nao.env.WebotsEnv import HandleEnv
+from nao.env.WebotsEnv import WebotsEnv
 from nao.env.driver.impl.DriveImu import DriveImu
 from nao.env.driver.impl.DriveLimbVel2 import DriveLimbVel2
 from nao.env.driver.impl.DriveTorso import DriveTorso
@@ -7,7 +7,7 @@ from nao.env.handler.impl.HandleDrive1 import HandleDrive1
 
 class HandleDrive104(HandleDrive1):
 
-    def __init__(self, env: HandleEnv):
+    def __init__(self, env: WebotsEnv):
         super().__init__(env)
         self.driveLimbVel2 = DriveLimbVel2(self.equipment, env.env_access, self.drivePose)
         self.driveImu = DriveImu(self.equipment)

@@ -7,11 +7,15 @@ from nao.env.EnvAccess import EnvAccess
 from nao.env.EnvMethod import EnvMethod
 
 
-class HandleEnv(RobotSupervisorEnv, EnvAccess, ABC):
+class WebotsEnv(RobotSupervisorEnv, EnvAccess, ABC):
     def __init__(self, timestep: int):
         RobotSupervisorEnv.__init__(self, timestep)
         EnvAccess.__init__(self)  # 改用多继承
-        self._env_method = EnvMethod()  # 环境内部方法接口，默认设置调用空方法
+        # 环境依赖方法
+        self._env_method = EnvMethod()
+        # 工具依赖，提前于WebotsNao注入
+        from nao.env.tool import space_tools
+        space_tools.fit(self)
 
     @property
     def env_access(self) -> EnvAccess:  # 兼容以往

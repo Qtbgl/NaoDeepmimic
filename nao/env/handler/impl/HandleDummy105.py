@@ -36,14 +36,14 @@ class HandleDummy105(HandleDummy1):
 
     def get_observations(self):
         # 更新和获取示例动作
-        sample = self.getActionInOrder(self.drive.sample_motion())
+        sample = self.getActionInOrder(self.drive.sample_angles())
         obs = self.obs.get_observations()
         obs = obs + sample
         return obs
 
     def get_default_observation(self):
         # 观察状态加动作信息
-        sample = self.getActionInOrder(self.drive.sample_motion())
+        sample = self.getActionInOrder(self.drive.sample_angles())
         # sample = self.add_noise(sample)
         obs = self.obs.get_default_observation() + sample
         return obs

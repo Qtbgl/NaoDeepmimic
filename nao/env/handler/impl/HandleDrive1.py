@@ -1,4 +1,4 @@
-from nao.env.WebotsEnv import HandleEnv
+from nao.env.WebotsEnv import WebotsEnv
 from nao.env.driver.impl.DriveFallen import DriveFallen
 from nao.env.driver.impl.DriveFeet import DriveFeet
 from nao.env.driver.impl.DrivePose import DrivePose
@@ -9,7 +9,7 @@ class HandleDrive1(HandleDrive):
     """
     优先注册要随时clean的驱动类
     """
-    def __init__(self, env: HandleEnv):
+    def __init__(self, env: WebotsEnv):
         super().__init__(env)
         # 注册任务需要的驱动类
         self.drivePose = DrivePose(self.equipment)

@@ -1,10 +1,10 @@
 import numpy as np
 
-from nao.env.WebotsEnv import HandleEnv
+from nao.env.WebotsEnv import WebotsEnv
 from nao.env.handler.getter import get_handlers
 
 
-class WebotsNao(HandleEnv):
+class WebotsNao(WebotsEnv):
     def __init__(self, **arguments):
         super().__init__(timestep=40)  # RL决策时间间隔 40ms
 
